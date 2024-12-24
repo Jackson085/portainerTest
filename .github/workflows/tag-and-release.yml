@@ -22,7 +22,7 @@ jobs:
 
       - name: Create and Push Tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REGISTRY_GITHUB_TOKEN }}
         run: |
           # Fetch the current version
           version=$VERSION
