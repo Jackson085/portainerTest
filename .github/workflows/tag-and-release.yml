@@ -22,6 +22,7 @@ jobs:
         run: |
           version=$(grep 'image: ghcr.io/jackson085/my_test:' docker-compose.yml | sed -E 's/.*:(.*)/\1/')
           echo "VERSION=$version" >> $GITHUB_ENV
+
       - name: Tag snapshot
         uses: tvdias/github-tagger@v0.0.1
         with:
