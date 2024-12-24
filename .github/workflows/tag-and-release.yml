@@ -1,0 +1,34 @@
+name: Tag and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-tag:
+    name: Create and Push Tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Extract Version from docker-compose.yml
+        id: extract_version
+        run: |
+          version=$(grep 'image: ghcr.io/jackson085/my_test:' docker-compose.yml | sed -E 's/.*:(.*)/\1/')
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - name: Create and Push Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch the current version
+          version=$VERSION
+
+          # Create a new tag
+          git tag -a "v$version" -m "Release version $version"
+
+          # Push the tag to the repository
+          git push origin "v$version"
